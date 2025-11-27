@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Tiny Tetris (Rust + WASM)</title>
+  <style>
+    body { background:#0e0f13; color:#eaeaea; font-family:system-ui; display:flex; flex-direction:column; align-items:center; gap:8px; }
+    canvas { background:#111; border:1px solid #333; image-rendering: pixelated; }
+    .hud { display:flex; gap:16px; }
+    kbd { padding:2px 6px; border:1px solid #666; border-bottom-width:2px; border-radius:4px; background:#222; }
+  </style>
+  <link data-trunk rel="rust" />
+</head>
+<body>
+  <h1>Tiny Tetris</h1>
+  <div class="hud">
+    <div>Move: <kbd>←</kbd><kbd>→</kbd> • Rotate: <kbd>↑</kbd> • Soft Drop: <kbd>↓</kbd> • Hard Drop: <kbd>Space</kbd> • Pause: <kbd>P</kbd></div>
+  </div>
+  <canvas id="game" width="300" height="600"></canvas>
+  <script type="module">
+    import init from "./web_client.js";
+    init();
+  </script>
+</body>
+</html>
+
