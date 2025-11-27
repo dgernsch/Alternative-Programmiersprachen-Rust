@@ -19,17 +19,23 @@ pub fn flip(b: bool) -> bool {
 
 // ---------- 2. OWNERSHIP & BORROWING ----------
 pub fn take_ownership(s: String) -> usize {
-    return s;
+    // TODO: return the length of s (taking ownership)
+    // hint: no borrowing here; s moves in
+    // took out return, I use implizit returns
+    s.len() 
 }
 
 pub fn borrow_first_char(s: &str) -> Option<char> {
     // TODO: return the first char without taking ownership
-    todo!()
+    // todo!()
+    let first_character = s.chars().next();
+    first_character
 }
 
 pub fn push_exclamation(s: &mut String) {
     // TODO: mutate s by appending a single '!' character
-    todo!()
+    //todo!()
+    s.push('!');
 }
 
 // ---------- 3. STRUCTS, ENUMS, METHODS ----------
