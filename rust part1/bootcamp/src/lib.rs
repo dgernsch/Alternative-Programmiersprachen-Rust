@@ -115,20 +115,28 @@ pub fn furthest_from_origin<T: Plottable>(items: &[T]) -> Option<&T> {
 pub fn parse_port(s: &str) -> Result<u16, String> {
     // TODO: parse string into u16; map errors into a friendly String
     // hint: use s.parse::<u16>()
-    todo!()
+    //todo!()
+    s.parse::<u16>().map_err(|e| format!("invalid port '{s}': {e}"))
 }
 
 // ---------- 6. ITERATORS & CLOSURES ----------
 pub fn even_squares(n: u32) -> Vec<u32> {
     // TODO: all even numbers from 0..=n, squared, collected to Vec
     // hint: (0..=n).filter(...).map(...).collect()
-    todo!()
+    // todo!()
+    let even: Vec<u32> = (0..=n).filter(|n| n % 2 == 0).map(|x| x*x).collect();
+    even
+
 }
+use rand::Rng;
 
 // ---------- 7. USING A CRATE (rand) ----------
 pub fn roll_dice(sides: u8) -> u8 {
     // TODO: return a value in 1..=sides using rand::Rng
     // note: assume sides >= 1
-    todo!()
+    let mut random_Number = rand::thread_rng();
+    random_Number.random_range(1..=sides)
+    //todo!()
 }
+
 
