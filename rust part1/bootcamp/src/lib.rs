@@ -48,7 +48,10 @@ pub struct Point {
 impl Point {
     pub fn distance_to(&self, other: &Point) -> f64 {
         // TODO: Euclidean distance
-        todo!()
+        //todo!()
+        let dx = self.x - other.x;
+        let dy = self.y - other.y;
+        (dx.powf(2.0) + dy.powf(2.0)).sqrt()
     }
 
     pub fn origin() -> Self {
@@ -61,11 +64,14 @@ pub enum Shape {
     Circle { center: Point, radius: f64 },
     Rect { top_left: Point, w: f64, h: f64 },
 }
-
 impl Shape {
     pub fn area(&self) -> f64 {
         // TODO: match on self, compute area
-        todo!()
+        //todo!()
+        match self{
+            Shape::Circle {radius, ..} => radius.powf(2.0) * std::f64::consts::PI,
+            Shape::Rect {w,h, ..} => w * h
+        }
     }
 }
 
