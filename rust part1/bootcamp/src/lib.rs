@@ -95,7 +95,20 @@ impl Plottable for (f64, f64) {
 // Note the explicit lifetime tying the returned reference to the input slice.
 pub fn furthest_from_origin<T: Plottable>(items: &[T]) -> Option<&T> {
     // TODO: iterate, compute squared distance, track max, return reference
-    todo!()
+    if items.is_empty() {
+        return None
+    }
+    let mut max_distance: f64 = -0.1;
+    let mut winning_item:Option <&T> = None;
+    for item in items.iter() {
+        let dist = item.x().powi(2) + item.y().powi(2);
+        if dist > max_distance {
+            max_distance = dist;
+            winning_item = Some(item);
+        }
+    } 
+    return winning_item
+    // todo!()
 }
 
 // ---------- 5. ERRORS & OPTION/RESULT ----------
