@@ -52,7 +52,47 @@ impl Piece {
         //      R180: (3-x, 3-y)
         //      R270: (y, 3-x)
         //  - Translate by (self.x, self.y)
-        unimplemented!()
+        //unimplemented!()
+        let(a,b,c,d) = match self.kind {
+            // Quadrat
+            PieceKind::O => ((1, 1), (2, 1), (1, 2), (2, 2)),
+            // Lienie
+            PieceKind::I => ((0,1),(1,1),(2,1),(3,1)),
+            // Linie + Eins Oben in der Mitte
+            /*
+            - - - -
+            * - - - 
+            * * * * 
+            - - - -  
+            */
+            PieceKind::T => ((1,1),(2,1),(3,1),(2,2)),
+            // Die Treppen
+            /*
+            - - - -
+            - * * * 
+            - - * - 
+            - - - -  
+            */
+            PieceKind::S => ((1,2),(2,2),(2,1),(3,1)),
+            PieceKind::Z => ((1,1),(2,1),(2,2),(3,2)),
+            // Linie + eines Oben links oder rechts wie ein J oder ein L 
+            PieceKind::J => ((1,1),(1,2),(2,2),(3,2)),
+            PieceKind::L => ((1,2),(2,2),(3,2),(3,1)),
+        };
+
+        let mut erg_array = [(0,0);4];
+        let mut raw_points = [a,b,c,d];
+
+        for(i, (lx,ly)) in raw_points.iter().enumerate() {
+            let (rx,ry) = match self.rot {
+                Rot::R0   => (*lx, *ly),
+                Rot::R90  => (3 - *ly, *lx),
+                Rot::R180 => (3 - *lx, 3 - *ly),
+                Rot::R270 => (*ly, 3 - *lx),
+            };
+            erg_array[i] = (self.x +rx, self.y + ry);
+        }
+        erg_array
     }
 }
 
@@ -117,7 +157,8 @@ impl Board {
         // TODO: true if any block is out of bounds (y<0 is allowed until lock) or hits Solid.
         // Treat y<0 as *allowed* (spawning above the board), but x bounds must hold.
         // Once y>=0, check cell occupancy.
-        unimplemented!()
+        //unimplemented!()
+        true
     }
 
     pub fn move_side(&mut self, dx: i32) {
