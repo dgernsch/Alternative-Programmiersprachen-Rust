@@ -162,15 +162,16 @@ impl Board {
 
         for (x,y) in pos {
             // is x collides with walls
-            if x > 0 || x >= W as i32 {
+            if x < 0 || x >= W as i32 {
                 return true;
             }
             // y collition
-            if y >= W as i32 {
+            if y >= H as i32 { 
                 return true;
-            }
+            } 
             if y >= 0 {
-                let cell = self.cells[y as usize][y as usize];
+                
+            let cell = self.cells[y as usize][x as usize];
                 if let Cell::Solid(_) = cell {
                     return true;
                 }
@@ -220,13 +221,57 @@ impl Board {
     fn lock_active(&mut self) {
         // TODO: convert active blocks into Solid cells if y>=0
         // Then clear complete lines, update score/lines, and spawn next piece.
-        unimplemented!()
+        let blocks = self.active.blocks();
+        let kind = self.active.kind;
+
+        for (x,y) in blocks {
+            if y >= 0 {
+                self.cells [y as usize][x as usize] = Cell::Solid(kind)
+            }
+            let cleared = self.clear_lines();
+            self.lines_cleared += cleared;
+            if cleared > 0 {
+                self.score = match cleared {
+                    1 => 100,
+                    2 => 300,
+                    3 => 500,
+                    4 => 800,
+                    _ => 0,
+                }
+            }
+            self.spawn_new_active();
+        }
     }
 
     pub fn clear_lines(&mut self) -> u32 {
-        // TODO: remove full rows; return how many were cleared.
-        // Strategy: collect rows to keep, then fill from bottom.
-        unimplemented!()
-    }
+        let mut rows_to_keep = Vec::new();
+
+        for y in 0..H {
+            let row = &self.cells[y];
+            
+            let is_full = row.iter().all(|cell| matches!(cell, Cell::Solid(_)));
+
+            if !is_full {
+                rows_to_keep.push(*row); 
+            }
+        }
+
+        let kept_count = rows_to_keep.len();
+        let cleared = (H - kept_count) as u32;
+
+        if cleared == 0 {
+            return 0;
+        }
+
+        for y in 0..(cleared as usize) {
+            self.cells[y] = [Cell::Empty; W];
+        }
+
+        for (i, row) in rows_to_keep.iter().enumerate() {
+            self.cells[cleared as usize + i] = *row;
+        }
+
+        cleared
+    } 
 }
 
