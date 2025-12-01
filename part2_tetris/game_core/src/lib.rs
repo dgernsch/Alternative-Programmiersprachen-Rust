@@ -157,8 +157,26 @@ impl Board {
         // TODO: true if any block is out of bounds (y<0 is allowed until lock) or hits Solid.
         // Treat y<0 as *allowed* (spawning above the board), but x bounds must hold.
         // Once y>=0, check cell occupancy.
-        //unimplemented!()
-        true
+        //unimplemented!();
+        let pos = p.blocks();
+
+        for (x,y) in pos {
+            // is x collides with walls
+            if x > 0 || x >= W as i32 {
+                return true;
+            }
+            // y collition
+            if y >= W as i32 {
+                return true;
+            }
+            if y >= 0 {
+                let cell = self.cells[y as usize][y as usize];
+                if let Cell::Solid(_) = cell {
+                    return true;
+                }
+            }
+        }
+        false
     }
 
     pub fn move_side(&mut self, dx: i32) {
