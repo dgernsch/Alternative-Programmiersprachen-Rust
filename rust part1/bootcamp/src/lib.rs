@@ -25,7 +25,7 @@ pub fn take_ownership(s: String) -> usize {
     s.len() 
 }
 
-pub fn borrow_first_char(s: &str) -> Option<char> {
+pub fn borrow_first_char(s: &str) -> Option<&char> {
     // TODO: return the first char without taking ownership
     // todo!()
     let first_character = s.chars().next();
@@ -51,6 +51,7 @@ impl Point {
         //todo!()
         let dx = self.x - other.x;
         let dy = self.y - other.y;
+        // dx.hypot(dy)
         (dx.powf(2.0) + dy.powf(2.0)).sqrt()
     }
 
